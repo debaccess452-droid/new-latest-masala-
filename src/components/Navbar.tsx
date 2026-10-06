@@ -12,11 +12,15 @@ import {
 import { BRAND_CONFIG, formatINR, SPICE_PRODUCTS } from '../data/spices';
 import {
   buildWhatsAppUrl,
+  closeSearchPopover,
   getCartSummary,
   openCartDrawer,
   openProductModal,
   openWishlistDrawer,
+  setMobileMenuOpen,
+  toggleSearchPopover,
   useCartItems,
+  useUIState,
   useWishlistIds,
 } from '../store/shopStore';
 import { ResilientImage } from './ResilientImage';
@@ -31,8 +35,7 @@ const NAV_LINKS = [
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const { searchOpen, mobileMenuOpen } = useUIState();
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileSearchQuery, setMobileSearchQuery] = useState('');
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -52,11 +55,15 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (target?.closest?.('[data-search-trigger="true"]')) {
+        return;
+      }
       if (
         searchContainerRef.current &&
         !searchContainerRef.current.contains(e.target as Node)
       ) {
-        setSearchOpen(false);
+        closeSearchPopover();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -66,7 +73,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setSearchOpen(false);
+        closeSearchPopover();
         setMobileMenuOpen(false);
       }
     };
@@ -142,8 +149,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                setSearchOpen((prev) => !prev);
-                setMobileMenuOpen(false);
+                toggleSearchPopover();
               }}
               aria-label={searchOpen ? 'Close spice search' : 'Search spices'}
               aria-expanded={searchOpen}
@@ -182,7 +188,7 @@ export const Navbar: React.FC = () => {
                   )}
                   <button
                     type="button"
-                    onClick={() => setSearchOpen(false)}
+                    onClick={() => closeSearchPopover()}
                     aria-label="Close search popover"
                     className="flex h-8 w-8 items-center justify-center rounded text-[var(--color-text-muted)] hover:bg-[var(--color-surface-elevated)] hover:text-[var(--color-text)]"
                   >
@@ -202,7 +208,7 @@ export const Navbar: React.FC = () => {
                         key={product.id}
                         type="button"
                         onClick={() => {
-                          setSearchOpen(false);
+                          closeSearchPopover();
                           openProductModal(product);
                         }}
                         className="flex w-full items-center gap-3 py-3 px-2 text-left hover:bg-[var(--color-surface-elevated)]/60 rounded transition-colors duration-150 min-h-[52px]"
@@ -235,7 +241,6 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              setMobileMenuOpen(false);
               openWishlistDrawer();
             }}
             aria-label={`Saved spices (${wishlistIds.length})`}
@@ -259,7 +264,6 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              setMobileMenuOpen(false);
               openCartDrawer();
             }}
             aria-label={`Open spice bag with ${summary.count} items`}
@@ -275,8 +279,7 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              setSearchOpen(false);
-              setMobileMenuOpen((prev) => !prev);
+              setMobileMenuOpen(!mobileMenuOpen);
             }}
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}

@@ -9,6 +9,7 @@ import { ProductShowcase } from './components/ProductShowcase';
 import { CraftAndCulinarySection } from './components/CraftAndCulinarySection';
 import { ReviewsSection } from './components/ReviewsSection';
 import { Footer } from './components/Footer';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import {
   CartDrawer,
   PolicyModal,
@@ -42,6 +43,9 @@ export default function App() {
 
       {/* Architectural Footer */}
       <Footer />
+
+      {/* Mobile-Only Fixed 5-Item Bottom Navigation */}
+      <MobileBottomNav />
 
       {/* Interactive Drawers & Modals */}
       <ProductDetailModal />

@@ -65,6 +65,8 @@ interface UIState {
   cartOpen: boolean;
   wishlistOpen: boolean;
   checkoutOpen: boolean;
+  searchOpen: boolean;
+  mobileMenuOpen: boolean;
   policyModal: PolicyModalType;
   toast: { id: number; message: string } | null;
 }
@@ -425,6 +427,8 @@ let uiState: UIState = {
   cartOpen: false,
   wishlistOpen: false,
   checkoutOpen: false,
+  searchOpen: false,
+  mobileMenuOpen: false,
   policyModal: null,
   toast: null,
 };
@@ -454,7 +458,13 @@ export function useUIState(): UIState {
 }
 
 export function openProductModal(product: SpiceProduct) {
-  updateUIState({ productModal: product, cartOpen: false, wishlistOpen: false });
+  updateUIState({
+    productModal: product,
+    cartOpen: false,
+    wishlistOpen: false,
+    searchOpen: false,
+    mobileMenuOpen: false,
+  });
 }
 
 export function closeProductModal() {
@@ -462,7 +472,13 @@ export function closeProductModal() {
 }
 
 export function openCartDrawer() {
-  updateUIState({ cartOpen: true, wishlistOpen: false, productModal: null });
+  updateUIState({
+    cartOpen: true,
+    wishlistOpen: false,
+    productModal: null,
+    searchOpen: false,
+    mobileMenuOpen: false,
+  });
 }
 
 export function closeCartDrawer() {
@@ -470,7 +486,12 @@ export function closeCartDrawer() {
 }
 
 export function openWishlistDrawer() {
-  updateUIState({ wishlistOpen: true, cartOpen: false });
+  updateUIState({
+    wishlistOpen: true,
+    cartOpen: false,
+    searchOpen: false,
+    mobileMenuOpen: false,
+  });
 }
 
 export function closeWishlistDrawer() {
@@ -478,11 +499,47 @@ export function closeWishlistDrawer() {
 }
 
 export function openCheckoutModal() {
-  updateUIState({ checkoutOpen: true, cartOpen: false, productModal: null, wishlistOpen: false });
+  updateUIState({
+    checkoutOpen: true,
+    cartOpen: false,
+    productModal: null,
+    wishlistOpen: false,
+    searchOpen: false,
+    mobileMenuOpen: false,
+  });
 }
 
 export function closeCheckoutModal() {
   updateUIState({ checkoutOpen: false });
+}
+
+export function openSearchPopover() {
+  updateUIState({
+    searchOpen: true,
+    mobileMenuOpen: false,
+    cartOpen: false,
+    wishlistOpen: false,
+  });
+}
+
+export function closeSearchPopover() {
+  updateUIState({ searchOpen: false });
+}
+
+export function toggleSearchPopover() {
+  updateUIState({
+    searchOpen: !uiState.searchOpen,
+    mobileMenuOpen: false,
+    cartOpen: false,
+    wishlistOpen: false,
+  });
+}
+
+export function setMobileMenuOpen(open: boolean) {
+  updateUIState({
+    mobileMenuOpen: open,
+    ...(open ? { searchOpen: false, cartOpen: false, wishlistOpen: false } : {}),
+  });
 }
 
 export function openPolicyModal(policy: PolicyModalType) {

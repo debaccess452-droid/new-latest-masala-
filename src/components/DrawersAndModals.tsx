@@ -793,7 +793,7 @@ export const ToastBanner: React.FC = () => {
     <div
       role="status"
       aria-live="polite"
-      className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-5 sm:bottom-5 z-50 flex items-center gap-2.5 rounded-lg border border-white/15 bg-[var(--color-primary-dark)] px-4 py-3 text-xs font-semibold text-white shadow-xl"
+      className="fixed bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] left-4 right-4 sm:left-auto sm:right-5 md:bottom-5 z-50 flex items-center gap-2.5 rounded-lg border border-white/15 bg-[var(--color-primary-dark)] px-4 py-3 text-xs font-semibold text-white shadow-xl"
     >
       <Check className="h-4 w-4 text-[#E5B869] shrink-0" />
       <span className="truncate">{toast.message}</span>

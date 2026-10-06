@@ -9,7 +9,7 @@ import {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[var(--color-primary-dark)] text-[#D5DDD8] border-t border-white/10 pb-safe">
+    <footer className="bg-[var(--color-primary-dark)] text-[#D5DDD8] border-t border-white/10 pb-[calc(5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
       {/* Top Direct Conversion Strip */}
       <div className="border-b border-white/10">
         <div className="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
