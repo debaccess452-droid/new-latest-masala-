@@ -1,0 +1,6 @@
+{
+  "name": "KBR Masale — Single-Origin Cold-Ground Indian Spices",
+  "description": "Direct-from-farm, slow cold-ground Indian kitchen spices by KBR Global Ventures. Pure Haldi, Lal Mirch, Dhaniya, and Jeera with volatile oils intact.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
